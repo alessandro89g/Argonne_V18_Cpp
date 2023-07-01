@@ -1,4 +1,6 @@
 #include "AV18.hpp"
+#include <functional>
+
 
 /*  *id* av18pw **********************************************************
 *   subroutine for partial-wave projection of argonne v18 potential
@@ -38,11 +40,11 @@
 *   ----------------------------------------------------------------------
 */
 void av18pw(const ushort lpot, const ushort l, const ushort s, const ushort  j, const ushort t,
-            const short t1z, const short t2z, double r, Matrix<double,2>& vpw){
+            const short t1z, const short t2z, double r, double** vpw){
 
     int s1ds2,t1dt2,t12;
-    Row<double,18> vnn;
-    Row<double,14> vem;
+    double vnn[18];
+    double vem[14];
 /* ------------------------
    strong interaction terms
 -------------------------*/
@@ -60,6 +62,7 @@ void av18pw(const ushort lpot, const ushort l, const ushort s, const ushort  j, 
  *  electromagnetic terms
  *  -------------------*/
     empot(lpot,r,vem);
+
     if (t1z+t2z<0)
         goto l10;
     else if (t1z+t2z==0)
@@ -147,7 +150,7 @@ l40:
 *      17=S12*T12                       18=t1z+t2z
 * where s1=sigma_1, t1=tau_1, t1z=tau_1(z), etc.
 * --------------------------------------------------------------------*/
-void av18op(const ushort lpot, double& r, Row<double,18>& vnn) {
+void av18op(const ushort lpot, double& r, double* vnn) {
     double mpi0,mpic,mp,mn,mup,mun;
     double mpi,mu0,muc,mu;
 
@@ -416,7 +419,7 @@ void av18op(const ushort lpot, double& r, Row<double,18>& vnn) {
 * VP = vacuum polarization (short-range approximation)
 * all other terms from magnetic moment (MM) interactions
 * --------------------------------------------------------------------*/
-void empot(const ushort lpot, const double r, Row<double,14>& vem) {
+void empot(const ushort lpot, const double r, double* vem) {
     double mpi0,mpic,mp,mn,mup,mun;
     double kr,me,mr;
     double alpha, b, br, pi, gamma, beta, fcoulr, ftr3, flsr3, hc,

@@ -1,7 +1,6 @@
 #ifndef AV18_HPP
 #define AV18_HPP
 
-#include "Row.hpp"
 #include <cmath>
 #define ushort unsigned short
 
@@ -124,7 +123,7 @@
 *   ----------------------------------------------------------------------
 */
 void av18pw(const ushort lpot, const ushort l, const ushort s, const ushort  j,
-            const ushort t, const short t1z, const short t2z, double r, Matrix<double,2>& vpw);
+            const ushort t, const short t1z, const short t2z, double r, double** vpw);
 
 /* *id* av18op **********************************************************
 * subroutine for strong interaction part of argonne v18 potential
@@ -161,7 +160,7 @@ void av18pw(const ushort lpot, const ushort l, const ushort s, const ushort  j,
 *      17=S12*T12                       18=t1z+t2z
 * where s1=sigma_1, t1=tau_1, t1z=tau_1(z), etc.
 * --------------------------------------------------------------------*/
-void av18op(const ushort lpot, double& r, Row<double,18>& vnn);
+void av18op(const ushort lpot, double& r, double* vnn);
 
 /**id* empot ***********************************************************
 * subroutine for electromagnetic part of Argonne v18 potential
@@ -187,7 +186,7 @@ void av18op(const ushort lpot, double& r, Row<double,18>& vnn);
 * VP = vacuum polarization (short-range approximation)
 * all other terms from magnetic moment (MM) interactions
 * --------------------------------------------------------------------*/
-void empot(const ushort lpot, const double r, Row<double,14>& vem);
+void empot(const ushort lpot, const double r, double* vem);
 
 /**id* consts **********************************************************
 * subroutine for constants in av18 and sscc potentials
